@@ -3,10 +3,10 @@
 <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-        Anything you want
+        Produced by <a href="https://vk.com/yuginkysloff" target="_blank">Yugin Kysloff</a>
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; <?=date('Y');?> <a href="#">Company</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; <?=date('Y');?> <a href="/">Dog Club</a>.</strong> All rights reserved.
 </footer>
 </div>
 <!-- ./wrapper -->
@@ -20,9 +20,5 @@
 <!-- AdminLTE App -->
 <script src="/dist/js/app.min.js"></script>
 
-<!-- Optionally, you can add Slimscroll and FastClick plugins.
-     Both of these plugins are recommended to enhance the
-     user experience. Slimscroll is required when using the
-     fixed layout. -->
 </body>
 </html>

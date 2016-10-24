@@ -1,6 +1,6 @@
 <? defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Statistics extends CI_Controller {
+class Users extends My_Controller {
 
     /**
      * Index Page for this controller.
@@ -19,9 +19,8 @@ class Statistics extends CI_Controller {
      */
     public function index()
     {
-        $this->load->view('admin/templates/header_view');
-        $this->load->view('admin/templates/aside_view');
-        $this->load->view('admin/starter_view');
-        $this->load->view('admin/templates/footer_view');
+        $data['title'] = 'Пользователи';
+
+        $this->admin_render('users', 'users', $data);
     }
 }
