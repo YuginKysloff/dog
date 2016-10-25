@@ -12,6 +12,7 @@
             <!-- Optionally, you can add icons to the links -->
             <li <? if($this->uri->segment(2) == 'statistics'):?>class="active"<? endif;?>><a href="/admin/statistics"><i class="fa fa-line-chart"></i> <span>Статистика</span></a></li>
             <li <? if($this->uri->segment(2) == 'users'):?>class="active"<? endif;?>><a href="/admin/users"><i class="fa fa-users"></i> <span>Пользователи</span></a></li>
+            <li <? if($this->uri->segment(2) == 'log'):?>class="active"<? endif;?>><a href="/admin/log"><i class="fa fa-book"></i> <span>Журнал событий</span></a></li>
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
             <span class="pull-right-container">
