@@ -24,7 +24,8 @@ function process(url, ident, before_id, form_id) {
             });
         },
         error: function(response) {
-            location.href = '/errors/data';
+
+            //location.href = '/errors/data';
         },
         complete: function () {
             st_process[ident] = true;
@@ -32,6 +33,6 @@ function process(url, ident, before_id, form_id) {
     });
 }
 
-$('#users__list').on('click', '.users__status', function(){alert();
-
+$('#users__list').on('click', '.users__status', function(){
+    process('/admin/users/change_status/'+$(this).attr('data-status')+'/'+$(this).attr('data-id'), 'status');
 });

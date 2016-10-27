@@ -30,6 +30,7 @@
                             </div>
                         </div>
                     </div>
+
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-striped">
@@ -54,7 +55,7 @@
                                         <td><?=($val['group'] < 2) ? 'Пользователи' : 'Администраторы';?></td>
                                         <td><?=$val['reg_ip'];?></td>
                                         <td><?=date('d-m-Y H:i', $val['reg_date']);?></td>
-                                        <td><i class="fa fa-edit"></i> - редактировать</td>
+                                        <td class="btn"><a href="/admin/users/edit/<?=md5($val['id']);?>"><i class="fa fa-edit"></i> - редактировать</a></td>
                                     </tr>
                                     <tr>
                                         <td></td>
@@ -62,9 +63,17 @@
                                         <td><a href="http://<?=$val['reg_link'];?>" target="_blank"><?=(strlen($val['reg_link']) > 40) ? substr($val['reg_link'], 0, 40).'...' : $val['reg_link'];?></a></td>
                                         <td>
                                             <? if($val['status'] == 0):?>
-                                                <span class="label label-danger users__status">Отключен</span>
+                                                <span id="line_<?=$val['id'];?>">
+                                                    <span class="label label-danger users__status btn" data-status="<?=$val['status'];?>" data-id="<?=$val['id'];?>">
+                                                        Отключен
+                                                    </span>
+                                                </span>
                                             <? else:?>
-                                                <span class="label label-success users__status">Активен</span>
+                                                <span id="line_<?=$val['id'];?>">
+                                                    <span class="label label-success users__status btn" data-status="<?=$val['status'];?>" data-id="<?=$val['id'];?>">
+                                                        Активен
+                                                    </span>
+                                                </span>
                                             <? endif;?>
                                         </td>
                                         <td <?=($val['reg_ip'] != $val['last_ip']) ? 'class="text-red"' : '';?>><?=$val['last_ip'];?></td>
@@ -89,4 +98,3 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-
