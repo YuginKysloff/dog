@@ -33,6 +33,6 @@ function process(url, ident, before_id, form_id) {
     });
 }
 
-$('#users__list').on('click', '.users__status', function(){
-    process('/admin/users/change_status/'+$(this).attr('data-status')+'/'+$(this).attr('data-id'), 'status');
+$('#users__list').on('click', '.users__group', function(){
+    process('/admin/users/change_status/'+$(this).attr('data-group')+'/'+$(this).attr('data-id'), 'block');
 });

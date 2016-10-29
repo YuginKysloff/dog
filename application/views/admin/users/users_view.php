@@ -12,7 +12,6 @@
             <li><i class="fa fa-users"></i> Пользователи</li>
         </ol>
     </section>
-
     <!-- Main content -->
     <section class="content">
         <div class="row">
@@ -30,18 +29,18 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>№</th>
-                                    <th>Логин/ФИО</th>
-                                    <th>E-mail/Ссылка</th>
-                                    <th>Группа/Статус</th>
-                                    <th>IP рег/активн</th>
-                                    <th>Дата рег/активн</th>
+                                    <th>Фото</th>
+                                    <th>Логин</th>
+                                    <th>Имя</th>
+                                    <th>E-mail</th>
+                                    <th>Группа</th>
+                                    <th>Дата регистрации</th>
                                     <th>Операции</th>
                                 </tr>
                             </thead>
@@ -50,35 +49,25 @@
                                 <? foreach($users as $val):?>
                                     <tr>
                                         <td>#<?=$val['id'];?></td>
+                                        <td>
+                                            <img src="/uploads/users/avatars/user<?=$val['id'];?>.jpg"
+                                                 class="img-roundedimg-thumbnail"
+                                                 alt="<?=$val['login'];?>" width="30" height="30">
+                                        </td>
                                         <td><a href="/admin/log/index/<?=$val['login'];?>"><?=$val['login'];?></a></td>
+                                        <td><?=$val['name'];?></td>
                                         <td><?=$val['email'];?></td>
-                                        <td><?=($val['group'] < 2) ? 'Пользователи' : 'Администраторы';?></td>
-                                        <td><?=$val['reg_ip'];?></td>
+                                        <td id="group_<?=$val['id'];?>">
+                                            <? switch($val['group']):
+                                                case 1:?>Пользователь
+                                                    <? break;
+                                                case 2:?>Администратор
+                                                    <? break;
+                                                default:?>Заблокирован
+                                            <? endswitch;?>
+                                        </td>
                                         <td><?=date('d-m-Y H:i', $val['reg_date']);?></td>
                                         <td class="btn"><a href="/admin/users/edit/<?=md5($val['id']);?>"><i class="fa fa-edit"></i> - редактировать</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td><?=$val['name'];?></td>
-                                        <td><a href="http://<?=$val['reg_link'];?>" target="_blank"><?=(strlen($val['reg_link']) > 40) ? substr($val['reg_link'], 0, 40).'...' : $val['reg_link'];?></a></td>
-                                        <td>
-                                            <? if($val['status'] == 0):?>
-                                                <span id="line_<?=$val['id'];?>">
-                                                    <span class="label label-danger users__status btn" data-status="<?=$val['status'];?>" data-id="<?=$val['id'];?>">
-                                                        Отключен
-                                                    </span>
-                                                </span>
-                                            <? else:?>
-                                                <span id="line_<?=$val['id'];?>">
-                                                    <span class="label label-success users__status btn" data-status="<?=$val['status'];?>" data-id="<?=$val['id'];?>">
-                                                        Активен
-                                                    </span>
-                                                </span>
-                                            <? endif;?>
-                                        </td>
-                                        <td <?=($val['reg_ip'] != $val['last_ip']) ? 'class="text-red"' : '';?>><?=$val['last_ip'];?></td>
-                                        <td><?=date('d-m-Y H:i', $val['last_date']);?></td>
-                                        <td></td>
                                     </tr>
                                 <? endforeach;?>
                             <? else:?>

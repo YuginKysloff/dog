@@ -11,7 +11,8 @@ class Users_model extends CI_Model
     // Получение всех пользователей
     public function get_all_users()
     {
-        $query = $this->db->get($this->db->dbprefix('users'))->
+        $query = $this->db->order_by('reg_date', 'desc')->
+                            get($this->db->dbprefix('users'))->
                             result_array();
         return $query;
     }
@@ -34,7 +35,7 @@ class Users_model extends CI_Model
     }
 
     // Изменение данных пользователя
-    public function update_status($id, $data)
+    public function update($id, $data)
     {
         $query = $this->db->where('id', $id)->
                             update($this->db->dbprefix('users'), $data);

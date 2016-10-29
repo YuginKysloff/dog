@@ -24,6 +24,7 @@
     <![endif]-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
+<div id="handler"></div>
 <div class="wrapper">
     <!-- Main Header -->
     <header class="main-header">
