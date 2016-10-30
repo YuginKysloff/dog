@@ -1,7 +1,7 @@
 <? defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div class="content-wrapper" xmlns="http://www.w3.org/1999/html">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -20,13 +20,15 @@
                     <div class="box-header">
                         <h3 class="box-title">Пользователи</h3>
                         <div class="box-tools">
-                            <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control pull-right"
-                                       placeholder="Поиск">
-                                <div class="input-group-btn">
-                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            <form method="post" accept-charset="utf-8">
+                                <div class="input-group input-group-sm" style="width: 150px;">
+                                    <input type="text" name="login" class="form-control pull-right"
+                                           placeholder="Поиск">
+                                    <div class="input-group-btn">
+                                        <button type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                     <!-- /.box-header -->
@@ -45,7 +47,7 @@
                                 </tr>
                             </thead>
                             <tbody  id="users__list">
-                            <? if($users):?>
+                            <? if(isset($users)):?>
                                 <? foreach($users as $val):?>
                                     <tr>
                                         <td <? switch($val['group']):

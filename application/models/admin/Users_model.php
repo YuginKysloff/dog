@@ -26,11 +26,19 @@ class Users_model extends CI_Model
         return $query;
     }
 
+    public function get_user_by_login($login)
+    {
+        $query = $this->db->where('login', $login)->
+                            get($this->db->dbprefix('users'))->
+                            result_array();
+        return $query;
+    }
+
     // Проверка наличия id в базе
     public function check_id($id)
     {
         $query = $this->db->where('id', $id)->
-        get($this->db->dbprefix('users'));
+                            get($this->db->dbprefix('users'));
         return $query;
     }
 
