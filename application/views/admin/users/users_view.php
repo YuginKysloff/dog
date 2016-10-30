@@ -48,7 +48,12 @@
                             <? if($users):?>
                                 <? foreach($users as $val):?>
                                     <tr>
-                                        <td>#<?=$val['id'];?></td>
+                                        <td <? switch($val['group']):
+                                                case 0:?>class="bg-red"<? break;
+                                                case 2:?>class="bg-blue"
+                                            <? endswitch;?>>
+                                            #<?=$val['id'];?>
+                                        </td>
                                         <td>
                                             <img src="/uploads/users/avatars/user<?=$val['id'];?>.jpg"
                                                  class="img-roundedimg-thumbnail"

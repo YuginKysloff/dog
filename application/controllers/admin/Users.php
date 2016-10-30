@@ -5,10 +5,10 @@ class Users extends My_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->library('form_validation');
         $this->load->model('/admin/Users_model');
 //        $this->load->library('pagination');
     }
+
 
     public function index()
     {
@@ -20,28 +20,82 @@ class Users extends My_Controller {
         $this->admin_render('users', 'users', $data);
     }
 
-    public function edit($id)
+
+    public function edit($id = false)
     {
-        // Проверка есть ли пост данные и их обработка
-        if($this->input->post('submit'))
+        // Проверка наличия id
+        if($id)
         {
-            $this->edit_handler();
+            // Очистка параметра
+            $id = strip_tags(trim($id));
+            // Получение пользователя по id
+            $data['user'] = $this->Users_model->get_user($id);
+            // Проверка наличия пользователя
+            if($data['user'])
+            {
+                // Загрузка библиотеки валидации
+                $this->load->library('form_validation');
+                // Проверка есть ли пост данные и их обработка
+                if($this->input->post('submit'))
+                {
+                    // Проверка изменений в полях
+                    $change_status = 0;
+                    if($data['user']['login'] != $this->input->post('login'))
+                    {
+                        $this->form_validation->set_rules('login', 'логин', 'trim|required|alpha_dash|min_length[5]|max_length[15]');
+                        $change_status = 1;
+                    }
+                    if($data['user']['name'] != $this->input->post('name'))
+                    {
+                        $this->form_validation->set_rules('name', 'имя', 'trim|alpha_dash');
+                        $change_status = 1;
+                    }
+                    if($data['user']['email'] != $this->input->post('email'))
+                    {
+                        $this->form_validation->set_rules('email', 'e-mail', 'trim|required|valid_email|is_unique['.$this->db->dbprefix('users').'.email]');
+                        $change_status = 1;
+                    }
+                    if($data['user']['group'] != $this->input->post('group'))
+                    {
+                        $this->form_validation->set_rules('group', 'группа', 'trim|integer|in_list[0,1,2]');
+                        $change_status = 1;
+                    }
+                    if($this->input->post('password') != '' && strrev(hash('sha512', $this->input->post('password').$this->config->item('pass_key'))) != $data['user']['password'])
+                    {
+                        $this->form_validation->set_rules('password', 'пароль', 'trim|required|alpha_numeric|min_length[6]|max_length[20]');
+                        $this->form_validation->set_rules('conf_password', 'повторить', 'trim|required|matches[password]');
+                        $change_status = 1;
+                    }
+                    if($change_status == 1)
+                    {
+                        // Стилизация вывода ошибок
+                        $this->form_validation->set_error_delimiters('<span class="text-red">', '</span>');
+                        // Валидация POST данных
+                        if ($this->form_validation->run() == TRUE)
+                        {
+                            // Подготовка данных и запись в базу
+                            $data['edit'] = array(
+                                'login' => $this->input->post('login'),
+                                'name' => $this->input-> post('name'),
+                                'email' => $this->input->post('email'),
+                                'password' => strrev(hash('sha512', $this->input->post('password').$this->config->item('pass_key'))),
+                                'group' => $this->input->post('group'),
+                            );
+                            echo '<pre>';print_r($data);die;
+                            $this->Users_model->update($data['user']['id'], $data['edit']);
+                            // Переход на страницу списка пользователей
+                            header("Location: /admin/users");
+                        }
+                    }
+                    $this->session->set_flashdata('message', 'Изменений не обнаружено');
+                }
+                // Генерация вида
+                $data['title'] = 'Редактирование пользователя '.$data['user']['login'];
+                $this->admin_render('users', 'edit', $data);
+                return;
+            }
         }
-
-        // Получение списка всех пользователей
-        $data['user'] = $this->Users_model->get_user($id);
-
-        // Генерация вида
-        $data['title'] = 'Редактирование пользователя '.$data['user']['login'];
-        $this->admin_render('users', 'edit', $data);
-    }
-
-    private function edit_handler()
-    {
-        if ($this->form_validation->run() == TRUE)
-        {
-
-            header("Location: /admin/users");
-        }
+        // Переход на страницу ошибки
+        show_404();
     }
 }

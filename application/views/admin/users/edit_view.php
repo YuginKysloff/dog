@@ -25,36 +25,41 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form method="post" accept-charset="utf-8" enctype="multipart/form-data" class="form-horizontal">
+                    <form name="user_edit" method="post" accept-charset="utf-8" enctype="multipart/form-data" class="form-horizontal">
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="login" class="col-sm-3 control-label">Логин</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="login" id="login" value="<?=set_value('login', $user['login']);?>">
+                                    <?=form_error('login');?>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="name" class="col-sm-3 control-label">Имя</label>
                                 <div class="col-sm-9">
                                     <input type="text" class="form-control" name="name" id="name" value="<?=set_value('name', $user['name']);?>">
+                                    <?=form_error('name');?>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="email" class="col-sm-3 control-label">E-mail</label>
                                 <div class="col-sm-9">
                                     <input type="email" class="form-control" name="email" id="email" value="<?=set_value('email', $user['email']);?>">
+                                    <?=form_error('email');?>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="password" class="col-sm-3 control-label">Новый пароль</label>
                                 <div class="col-sm-9">
                                     <input type="password" class="form-control" name="password" id="password" value="<?=set_value('password');?>">
+                                    <?=form_error('password');?>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="conf_password" class="col-sm-3 control-label">Повторить</label>
                                 <div class="col-sm-9">
                                     <input type="password" class="form-control" name="conf_password" id="conf_password" value="<?=set_value('conf_password');?>">
+                                    <?=form_error('conf_password');?>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -65,6 +70,7 @@
                                         <option value="1" <?=($user['group'] == 1) ? 'selected' : '';?>>Пользователи</option>
                                         <option value="2" <?=($user['group'] == 2) ? 'selected' : '';?>>Администраторы</option>
                                     </select>
+                                    <?=form_error('group');?>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -76,6 +82,7 @@
                             </div>
                         </div>
                         <!-- /.box-body -->
+                        <div class="text-green text-center"><?=$this->session->flashdata('message');?></div>
                         <div class="box-footer">
                             <button type="submit" name="submit" value="submit" class="btn btn-primary center-block">
                                 Сохранить
@@ -110,7 +117,7 @@
                                 </tr>
                                 <tr>
                                     <td>IP последней активности</td>
-                                    <td><?=$user['reg_ip'];?></td>
+                                    <td <?=($user['reg_ip'] != $user['last_ip']) ? 'class="text-red"' : '';?>><?=$user['last_ip'];?></td>
                                 </tr>
                                 <tr>
                                     <td>Ссылка регистрации</td>
