@@ -17,10 +17,30 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <div class="box-header">
-                        <h3 class="box-title">Пользователи</h3>
-                        <div class="box-tools">
-                            <form method="post" accept-charset="utf-8">
+                    <form method="post" accept-charset="utf-8" class="form-inline">
+                        <div class="box-header">
+                            <div class="input-group input-group-sm col-sm-1">
+                                <select name="case" class="form-control">
+                                    <option value="1" selected>!Abc</option>
+                                    <option value="2">Abc</option>
+                                </select>
+                            </div>
+                            <div class="input-group input-group-sm col-sm-1">
+                                <select name="like" class="form-control">
+                                    <option value="1" selected>LIKE</option>
+                                    <option value="2">% LIKE</option>
+                                    <option value="3">LIKE %</option>
+                                    <option value="4">% LIKE %</option>
+                                </select>
+                            </div>
+                            <div class="input-group input-group-sm col-sm-1">
+                                <select name="field" class="form-control">
+                                    <option value="1" selected>Логин</option>
+                                    <option value="2">E-mail</option>
+                                    <option value="3">IP</option>
+                                </select>
+                            </div>
+                            <div class="box-tools">
                                 <div class="input-group input-group-sm" style="width: 150px;">
                                     <input type="text" name="login" class="form-control pull-right"
                                            placeholder="Поиск">
@@ -28,9 +48,9 @@
                                         <button type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i></button>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-striped">

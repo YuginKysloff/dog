@@ -17,6 +17,9 @@ class Users extends My_Controller {
         if($this->input->post('search') && $this->input->post('login') != '')
         {
             // Установка правил валидации
+            $this->form_validation->set_rules('case', '', 'required|integer||in_list[1,2]');
+            $this->form_validation->set_rules('like', '', 'required|integer||in_list[1,2,3,4]');
+            $this->form_validation->set_rules('field', '', 'required|integer||in_list[1,2,3]');
             $this->form_validation->set_rules('login', 'логин', 'trim|required|alpha_dash|min_length[5]|max_length[15]');
             // Валидация POST данных
             if ($this->form_validation->run() == TRUE)
@@ -58,7 +61,7 @@ class Users extends My_Controller {
         // Генерация вида
         $data['title'] = 'Пользователи';
         $this->admin_render('users', 'users', $data);
-    }
+    }// End index method
 
 
     public function edit($id = false)
@@ -80,7 +83,7 @@ class Users extends My_Controller {
                     $this->form_validation->set_error_delimiters('<span class="text-red">', '</span>');
                     $this->form_validation->set_rules('login', 'логин', 'trim|required|alpha_dash|min_length[5]|max_length[15]');
                     $this->form_validation->set_rules('name', 'имя', 'trim|alpha_dash');
-                    $this->form_validation->set_rules('group', 'группа', 'trim|required|integer|in_list[0,1,2]');
+                    $this->form_validation->set_rules('group', 'группа', 'required|integer|in_list[0,1,2]');
                     if($data['user']['email'] != $this->input->post('email'))
                     {
                         $this->form_validation->set_rules('email', 'e-mail', 'trim|required|valid_email|is_unique['.$this->db->dbprefix('users').'.email]');
@@ -154,5 +157,5 @@ class Users extends My_Controller {
         }
         // Переход на страницу ошибки
         show_404();
-    }
-}
+    }// End edit method
+}// End users class
