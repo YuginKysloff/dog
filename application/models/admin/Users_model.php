@@ -8,10 +8,18 @@ class Users_model extends CI_Model
         $this->load->database();
     }
 
+    // Получение количества всех пользователей
+    public function count_all_users()
+    {
+        $query = $this->db->count_all($this->db->dbprefix('users'));
+        return $query;
+    }
+
     // Получение всех пользователей
-    public function get_all_users()
+    public function get_all_users($offset, $limit)
     {
         $query = $this->db->order_by('reg_date', 'desc')->
+                            limit($limit, $offset)->
                             get($this->db->dbprefix('users'))->
                             result_array();
         return $query;

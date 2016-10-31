@@ -1,7 +1,7 @@
 <? defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper" xmlns="http://www.w3.org/1999/html">
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
@@ -86,8 +86,12 @@
                         </table>
                     </div>
                     <!-- /.box-body -->
+                    <div class="box-footer clearfix">
+                        <?=$this->pagination->create_links();?>
+                    </div>
                 </div>
                 <!-- /.box -->
+<!--                --><?//=$this->pagination->create_links();?>
             </div>
         </div>
     </section>
