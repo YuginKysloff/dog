@@ -77,12 +77,15 @@
                                 <label for="userfile" class="col-sm-3 control-label">Загрузить фото</label>
                                 <div class="col-sm-9">
                                     <input type="file" name="userfile" id="userfile">
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="200000">
                                     <p class="help-block">Загрузка фото для аватарки.</p>
                                 </div>
                             </div>
                         </div>
                         <!-- /.box-body -->
-                        <div class="text-green text-center"><?=$this->session->flashdata('message');?></div>
+                        <div class="text-green text-center">
+                            <?=$this->session->flashdata('message');?>
+                        </div>
                         <div class="box-footer">
                             <button type="submit" name="submit" value="submit" class="btn btn-primary center-block">
                                 Сохранить

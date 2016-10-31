@@ -90,9 +90,48 @@ class Users extends My_Controller {
                         $this->form_validation->set_rules('password', 'пароль', 'trim|required|alpha_numeric|min_length[6]|max_length[20]');
                         $this->form_validation->set_rules('conf_password', 'повторить', 'trim|required|matches[password]');
                     }
-                    // Валидация POST данных
+                    // Валидация POST данных, загрузки и ресайза фото
                     if ($this->form_validation->run() == TRUE)
                     {
+                        if($_FILES['userfile']['name'] != '')
+                        {
+                            // Настройки для записи фото
+                            $config['upload_path']          = './uploads/users/avatars/';
+                            $config['allowed_types']        = 'jpg';
+                            $config['file_name']            = 'user'.$data['user']['id'];
+                            $config['max_filename']         = 10;
+                            $config['overwrite']            = TRUE;
+                            $config['max_size']             = 200;
+                            $config['max_width']            = 1024;
+                            $config['min_width']            = 128;
+                            $config['max_height']           = 768;
+                            $config['min_height']           = 128;
+                            // Загрузка библиотеки
+                            $this->load->library('upload', $config);
+                            // Настройки ресайза загруженного фото
+                            $config['image_library'] = 'gd2';
+                            $config['source_image'] = './uploads/users/avatars/user'.$data['user']['id'].'.jpg';
+                            $config['maintain_ratio'] = TRUE;
+                            $config['width']         = 160;
+                            $config['height']       = 160;
+                            $this->load->library('image_lib', $config);
+                            if($this->upload->do_upload('userfile') == FALSE)
+                            {
+                                $this->session->set_flashdata('message', $this->upload->display_errors());
+                                // Генерация вида
+                                $data['title'] = 'Редактирование пользователя '.$data['user']['login'];
+                                $this->admin_render('users', 'edit', $data);
+                                return;
+                            }
+                            if($this->image_lib->resize() == FALSE)
+                            {
+                                $this->session->set_flashdata('message', $this->image_lib->display_errors());
+                                // Генерация вида
+                                $data['title'] = 'Редактирование пользователя '.$data['user']['login'];
+                                $this->admin_render('users', 'edit', $data);
+                                return;
+                            }
+                        }
                         // Подготовка данных и запись в базу
                         $data['edit'] = array(
                             'login' => $this->input->post('login'),
@@ -101,6 +140,7 @@ class Users extends My_Controller {
                             'password' => strrev(hash('sha512', $this->input->post('password').$this->config->item('pass_key'))),
                             'group' => $this->input->post('group'),
                         );
+                        // Запись данных из формы в базу
                         $this->Users_model->update($data['user']['id'], $data['edit']);
                         // Переход на страницу списка пользователей
                         header("Location: /admin/users");

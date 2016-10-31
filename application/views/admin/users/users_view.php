@@ -64,7 +64,7 @@
                                         <td><a href="/admin/log/index/<?=$val['login'];?>"><?=$val['login'];?></a></td>
                                         <td><?=$val['name'];?></td>
                                         <td><?=$val['email'];?></td>
-                                        <td id="group_<?=$val['id'];?>">
+                                        <td>
                                             <? switch($val['group']):
                                                 case 1:?>Пользователь
                                                     <? break;
