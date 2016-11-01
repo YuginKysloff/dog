@@ -15,14 +15,13 @@ class Users extends My_Controller {
     {
         $sql = '';
         // Проверка есть ли пост данные и их обработка
-        if($this->input->post('submit') && $this->input->post('query') != '')
+        if($this->input->post('search') && $this->input->post('query') != '')
         {
             // Установка правил валидации
-            $this->form_validation->set_rules('case', '', 'required|integer||in_list[1,2]');
-            $this->form_validation->set_rules('like', '', 'required|integer||in_list[1,2,3,4]');
-            $this->form_validation->set_rules('field', '', 'required|integer||in_list[1,2,3]');
+            $this->form_validation->set_rules('case', '', 'required|integer|in_list[1,2]');
+            $this->form_validation->set_rules('like', '', 'required|integer|in_list[1,2,3,4]');
+            $this->form_validation->set_rules('field', '', 'required|integer|in_list[1,2,3]');
             $this->form_validation->set_rules('query', 'Поиск', 'trim|required|alpha_dash|min_length[5]|max_length[30]');
-//            var_dump($this->form_validation->run());die;
             // Валидация POST данных
             if ($this->form_validation->run() == TRUE)
             {
@@ -31,19 +30,25 @@ class Users extends My_Controller {
                 $like = $this->input->post('like');
                 $field = $this->input->post('field');
                 $query = $this->input->post('query');
-                $query_complete = true;
+//                $query_complete = true;
                 // Генерация строки запроса
                 $sql = "WHERE ";
                 switch ($field) {
                     case 1: $field = '`login`'; break;
                     case 2: $field = '`email`'; break;
-                    case 4: $field = '`last_ip`'; break;
-                    default: $query_complete = false; break;
+                    case 3: $field = '`last_ip`'; break;
+//                    default: $query_complete = false; break;
                 }
-                echo $sql .= ($case == 1) ? "LOWER('".$query."')" : "'".$query."'";
-
-die;
-
+                $sql .= ($case == 1) ? 'LOWER('.$field.') ' : $field.' ';
+                $sql .= 'LIKE ';
+                switch ($like) {
+                    case 1: break;
+                    case 2: $query = '%'.$query; break;
+                    case 3: $query .= '%'; break;
+                    case 4: $query = '%'.$query.'%'; break;
+//                    default: $query_complete = false; break;
+                }
+                $sql .= ($case == 1) ? "LOWER('".$query."')" : "'".$query."'";
             }
         }
         else
@@ -133,6 +138,8 @@ die;
                             $config['image_library'] = 'gd2';
                             $config['source_image'] = './uploads/users/avatars/user'.$data['user']['id'].'.jpg';
                             $config['maintain_ratio'] = TRUE;
+                            $config['create_thumb'] = TRUE;
+                            $config['thumb_marker'] = '_thumb';
                             $config['width']         = 160;
                             $config['height']       = 160;
                             $this->load->library('image_lib', $config);

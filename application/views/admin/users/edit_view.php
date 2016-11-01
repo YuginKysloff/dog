@@ -131,8 +131,8 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2" class="text-center">
-                                        <a class="fancybox" rel="group<?=$user['id'];?>" href="/uploads/users/avatars/user<?=$user['id'];?>.jpg">
-                                            <img src="/uploads/users/avatars/user<?=$user['id'];?>.jpg"
+                                        <a class="fancybox" rel="group<?=$user['id'];?>" href="/uploads/users/avatars/user<?=$user['id'];?>.jpg" title="<?=$user['login'];?>">
+                                            <img src="/uploads/users/avatars/user<?=$user['id'];?>_thumb.jpg"
                                                  alt="<?=$user['login'];?>" class="img-thumbnail" width="160" height="160">
                                         </a>
                                     </td>

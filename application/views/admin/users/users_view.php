@@ -43,7 +43,7 @@
                                 <input type="text" name="query" class="form-control"
                                        placeholder="Поиск">
                                 <div class="input-group-btn">
-                                    <button type="submit" name="submit" value="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                    <button type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -74,8 +74,8 @@
                                             #<?=$val['id'];?>
                                         </td>
                                         <td>
-                                            <a class="fancybox" rel="group<?=$val['id'];?>" href="/uploads/users/avatars/user<?=$val['id'];?>.jpg">
-                                                <img src="/uploads/users/avatars/user<?=$val['id'];?>.jpg"
+                                            <a class="fancybox" rel="group<?=$val['id'];?>" href="/uploads/users/avatars/user<?=$val['id'];?>.jpg" title="<?=$val['login'];?>">
+                                                <img src="/uploads/users/avatars/user<?=$val['id'];?>_thumb.jpg"
                                                      class="img-roundedimg-thumbnail"
                                                      alt="<?=$val['login'];?>" width="30" height="30">
                                             </a>
