@@ -1,4 +1,4 @@
-//Функции Ajax
+// Функция Ajax
 
 var st_process = new Object();
 function process(url, ident, before_id, form_id) {
@@ -25,7 +25,7 @@ function process(url, ident, before_id, form_id) {
         },
         error: function(response) {
 
-            //location.href = '/errors/data';
+            location.href = '/errors/data';
         },
         complete: function () {
             st_process[ident] = true;
@@ -33,6 +33,12 @@ function process(url, ident, before_id, form_id) {
     });
 }
 
-$('#users__list').on('click', '.users__group', function(){
-    process('/admin/users/change_status/'+$(this).attr('data-group')+'/'+$(this).attr('data-id'), 'block');
-});
+    // Запуск фансибокс
+    $(document).ready(function() {
+        $(".fancybox").fancybox();
+    });
+
+
+//$('#users__list').on('click', '.users__group', function(){
+//    process('/admin/users/change_status/'+$(this).attr('data-group')+'/'+$(this).attr('data-id'), 'block');
+//});

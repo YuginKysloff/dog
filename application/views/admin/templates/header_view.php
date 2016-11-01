@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. We have chosen the skin-blue -->
     <link rel="stylesheet" href="/dist/css/skins/skin-blue.min.css">
+    <? if($this->uri->segment(2) == 'users'):?>
+        <!-- Add fancyBox -->
+        <link rel="stylesheet" href="/plugins/fancybox/source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen">
+    <? endif;?>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>

@@ -13,19 +13,37 @@ class Users extends My_Controller {
 
     public function index()
     {
+        $sql = '';
         // Проверка есть ли пост данные и их обработка
-        if($this->input->post('search') && $this->input->post('login') != '')
+        if($this->input->post('submit') && $this->input->post('query') != '')
         {
             // Установка правил валидации
             $this->form_validation->set_rules('case', '', 'required|integer||in_list[1,2]');
             $this->form_validation->set_rules('like', '', 'required|integer||in_list[1,2,3,4]');
             $this->form_validation->set_rules('field', '', 'required|integer||in_list[1,2,3]');
-            $this->form_validation->set_rules('login', 'логин', 'trim|required|alpha_dash|min_length[5]|max_length[15]');
+            $this->form_validation->set_rules('query', 'Поиск', 'trim|required|alpha_dash|min_length[5]|max_length[30]');
+//            var_dump($this->form_validation->run());die;
             // Валидация POST данных
             if ($this->form_validation->run() == TRUE)
             {
-                // Получение пользователя по логину
-                $data['users'] = $this->Users_model->get_user_by_login($this->input->post('login'));
+                // Получение post данных
+                $case = $this->input->post('case');
+                $like = $this->input->post('like');
+                $field = $this->input->post('field');
+                $query = $this->input->post('query');
+                $query_complete = true;
+                // Генерация строки запроса
+                $sql = "WHERE ";
+                switch ($field) {
+                    case 1: $field = '`login`'; break;
+                    case 2: $field = '`email`'; break;
+                    case 4: $field = '`last_ip`'; break;
+                    default: $query_complete = false; break;
+                }
+                echo $sql .= ($case == 1) ? "LOWER('".$query."')" : "'".$query."'";
+
+die;
+
             }
         }
         else

@@ -17,6 +17,10 @@
 <script src="/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="/bootstrap/js/bootstrap.min.js"></script>
+<? if($this->uri->segment(2) == 'users'):?>
+    <!-- Add fancyBox -->
+    <script type="text/javascript" src="/plugins/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+<? endif;?>
 <!-- AdminLTE App -->
 <script src="/dist/js/app.min.js"></script>
 <script src="/dist/js/script.js"></script>

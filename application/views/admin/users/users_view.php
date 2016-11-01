@@ -1,5 +1,4 @@
 <? defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -40,13 +39,11 @@
                                     <option value="3">IP</option>
                                 </select>
                             </div>
-                            <div class="box-tools">
-                                <div class="input-group input-group-sm" style="width: 150px;">
-                                    <input type="text" name="login" class="form-control pull-right"
-                                           placeholder="Поиск">
-                                    <div class="input-group-btn">
-                                        <button type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                    </div>
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="query" class="form-control"
+                                       placeholder="Поиск">
+                                <div class="input-group-btn">
+                                    <button type="submit" name="submit" value="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -77,9 +74,11 @@
                                             #<?=$val['id'];?>
                                         </td>
                                         <td>
-                                            <img src="/uploads/users/avatars/user<?=$val['id'];?>.jpg"
-                                                 class="img-roundedimg-thumbnail"
-                                                 alt="<?=$val['login'];?>" width="30" height="30">
+                                            <a class="fancybox" rel="group<?=$val['id'];?>" href="/uploads/users/avatars/user<?=$val['id'];?>.jpg">
+                                                <img src="/uploads/users/avatars/user<?=$val['id'];?>.jpg"
+                                                     class="img-roundedimg-thumbnail"
+                                                     alt="<?=$val['login'];?>" width="30" height="30">
+                                            </a>
                                         </td>
                                         <td><a href="/admin/log/index/<?=$val['login'];?>"><?=$val['login'];?></a></td>
                                         <td><?=$val['name'];?></td>
@@ -111,7 +110,6 @@
                     </div>
                 </div>
                 <!-- /.box -->
-<!--                --><?//=$this->pagination->create_links();?>
             </div>
         </div>
     </section>
