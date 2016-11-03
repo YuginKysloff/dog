@@ -46,6 +46,9 @@
                                     <button type="submit" name="search" value="search" class="btn btn-default"><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
+                            <div class="input-group input-group-sm">
+                                <div class="text-red"><?=validation_errors();?></div>
+                            </div>
                         </div>
                     </form>
                     <!-- /.box-header -->
@@ -64,7 +67,7 @@
                                 </tr>
                             </thead>
                             <tbody  id="users__list">
-                            <? if(isset($users)):?>
+                            <? if(!empty($users)):?>
                                 <? foreach($users as $val):?>
                                     <tr>
                                         <td <? switch($val['group']):
@@ -98,7 +101,7 @@
                                 <? endforeach;?>
                             <? else:?>
                                 <tr>
-                                    <td colspan="7" class="text-center">Нет данных</td>
+                                    <td colspan="8" class="text-center">Нет данных</td>
                                 </tr>
                             <? endif;?>
                             </tbody>

@@ -9,19 +9,37 @@ class Users_model extends CI_Model
     }
 
     // Получение количества всех пользователей
-    public function count_all_users()
+    public function count_users($field, $query, $like)
     {
-        $query = $this->db->count_all($this->db->dbprefix('users'));
+        if($field)
+        {
+            $query = $this->db->like($field, $query, $like)->
+                                count_all_results($this->db->dbprefix('users'));
+        }
+        else
+        {
+            $query = $this->db->count_all($this->db->dbprefix('users'));
+        }
         return $query;
     }
 
     // Получение всех пользователей
-    public function get_all_users($offset, $limit)
+    public function get_users($offset, $limit, $field, $query, $like)
     {
-        $query = $this->db->order_by('reg_date', 'desc')->
-                            limit($limit, $offset)->
-                            get($this->db->dbprefix('users'))->
-                            result_array();
+        if ($field) {
+            $query = $this->db->like($field, $query, $like)->
+                                order_by('reg_date', 'desc')->
+                                limit($limit, $offset)->
+                                get($this->db->dbprefix('users'))->
+                                result_array();
+        }
+        else
+        {
+            $query = $this->db->order_by('reg_date', 'desc')->
+                                limit($limit, $offset)->
+                                get($this->db->dbprefix('users'))->
+                                result_array();
+        }
         return $query;
     }
 
