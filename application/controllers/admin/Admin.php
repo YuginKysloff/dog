@@ -11,10 +11,10 @@ class Admin extends CI_Controller {
 		$this->time = time();
 
 		$this->load->library('form_validation');
-		$this->load->model('Users_model');
-		$this->load->model('Log_model');
-		$this->load->model('Warnings_model');
-		$this->load->model('Attempts_model');
+		$this->load->model('admin/Users_model');
+		$this->load->model('admin/Log_model');
+		$this->load->model('admin/Warnings_model');
+		$this->load->model('admin/Attempts_model');
 	}
 
 	public function login()
@@ -68,7 +68,9 @@ class Admin extends CI_Controller {
         }
         else
         {
-			$this->load->view('admin/login_view');
+            var_dump($this->config->item('groups'));die;
+            $data['title'] = 'Авторизация';
+			$this->load->view('admin/login_view', $data);
         }
 	} // End login
 
