@@ -11,7 +11,7 @@ class Log_model extends CI_Model
     }
 
     public function add($data){
-        $query = $this->db->insert('log', $data);
+        $query = $this->db->insert($this->db->dbprefix('log'), $data);
         return $query;
     }
 } // End of Log_model

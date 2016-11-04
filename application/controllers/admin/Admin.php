@@ -19,6 +19,8 @@ class Admin extends CI_Controller {
 
 	public function login()
 	{
+
+		$data['title'] = 'Авторизация';
 		// Проверка есть ли куки для автовхода
 		if($this->input->cookie('user') && $this->input->cookie('password') && $this->input->cookie('hash'))
 		{
@@ -68,8 +70,6 @@ class Admin extends CI_Controller {
         }
         else
         {
-            var_dump($this->config->item('groups'));die;
-            $data['title'] = 'Авторизация';
 			$this->load->view('admin/login_view', $data);
         }
 	} // End login
