@@ -6,8 +6,8 @@ class Log extends MY_Controller {
     {
         parent::__construct();
         // Проверка доступа в закрытый раздел
-        if($this->session->userdata('user')['group'] < $this->config->item('user_group')['admin']) header("Location: /admin");
-
+        $this->check_access($this->config->item('user_group')['admin'], '/admin', '('.__FILE__.'/'.__LINE__.')');
+        // Загрузка моделей и библиотек
 //        $this->load->model('/admin/Users_model');
 //        $this->load->library('form_validation');
 //        $this->load->library('pagination');

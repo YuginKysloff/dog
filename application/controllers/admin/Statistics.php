@@ -6,11 +6,9 @@ class Statistics extends MY_Controller {
     {
         parent::__construct();
         // Проверка доступа в закрытый раздел
-        if($this->session->userdata('user')['group'] < $this->config->item('user_group')['admin']) header("Location: /admin");
-
+        $this->check_access($this->config->item('user_group')['admin'], '/admin', '('.__FILE__.'/'.__LINE__.')');
+        // Загрузка моделей и библиотек
         $this->load->model('/admin/Statistics_model');
-//        $this->load->library('pagination');
-//        $this->load->helper('url');
     }
 
     public function index()

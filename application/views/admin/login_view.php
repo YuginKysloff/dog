@@ -36,9 +36,9 @@
         <p class="login-box-msg">Авторизация пользователя</p>
         <form name="login" method="post" accept-charset="utf-8">
             <div class="form-group has-feedback">
-                <input type="email" name="email" class="form-control" placeholder="Введите E-mail" value="<?= set_value('email');?>" maxlength="50">
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                <?=form_error('email', '<div class="text-red">', '</div>');?>
+                <input type="text" name="login" class="form-control" placeholder="Введите логин" value="<?= set_value('login');?>" maxlength="15">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                <?=form_error('login', '<div class="text-red">', '</div>');?>
             </div>
             <div class="form-group has-feedback">
                 <input type="password" name="password" class="form-control" placeholder="Введите пароль" value="<?= set_value('password');?>" maxlength="20">

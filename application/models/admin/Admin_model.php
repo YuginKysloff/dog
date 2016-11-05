@@ -10,8 +10,8 @@ class Admin_model extends CI_Model
     }
 
     // Проверка существования пользователя
-    public function checkUser($email, $password){
-        $query = $this->db->where('email', $email)->
+    public function checkUser($login, $password){
+        $query = $this->db->where('login', $login)->
                             where('password', $password)->
                             get($this->db->dbprefix('users'))->row_array();
         return $query;
@@ -34,12 +34,6 @@ class Admin_model extends CI_Model
     // Добавление записи в журнал событий
     public function addLog($data){
         $query = $this->db->insert($this->db->dbprefix('log'), $data);
-        return $query;
-    }
-
-    // Добавление записи в журнал предупреждений
-    public function addWarning($data){
-        $query = $this->db->insert($this->db->dbprefix('warnings'), $data);
         return $query;
     }
 

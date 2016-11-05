@@ -9,8 +9,8 @@ class Warnings_model extends CI_Model
         parent::__construct();
         $this->load->database();
     }
-
-    public function add($data){
+    // Добавление записи в журнал предупреждений
+    public function addWarning($data){
         $query = $this->db->insert($this->db->dbprefix('warnings'), $data);
         return $query;
     }
