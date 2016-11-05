@@ -6,7 +6,8 @@ class Statistics extends MY_Controller {
     {
         parent::__construct();
         // Проверка доступа в закрытый раздел
-        if($this->session->userdata('user_group') < $this->config->item('groups')['admin']) header("Location: /admin");;
+        if($this->session->userdata('user')['group'] < $this->config->item('user_group')['admin']) header("Location: /admin");
+
         $this->load->model('/admin/Statistics_model');
 //        $this->load->library('pagination');
 //        $this->load->helper('url');

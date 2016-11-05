@@ -33,7 +33,7 @@
     <!-- Main Header -->
     <header class="main-header">
         <!-- Logo -->
-        <a href="/admin/statistics" class="logo">
+        <a href="/" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>D</b>C</span>
             <!-- logo for regular state and mobile devices -->
@@ -51,9 +51,9 @@
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
-                        <a href="#">
+                        <a href="/admin/users/edit/<?=md5($this->session->userdata('user')['id']);?>">
                             <!-- The user image in the navbar-->
-                            <img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                            <img src="/uploads/users/avatars/user<?=$this->session->userdata('user')['id'];?>.jpg" class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs"><?=$this->session->userdata('user_login');?></span>
                         </a>

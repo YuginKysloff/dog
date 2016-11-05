@@ -16,26 +16,23 @@ class Admin extends CI_Controller {
 
 	public function login()
 	{
-
+		// Заголовок страницы
 		$data['title'] = 'Авторизация';
 		// Проверка есть ли куки для автовхода
-		if($this->input->cookie('user') && $this->input->cookie('password') && $this->input->cookie('hash'))
+		if($this->input->cookie('user') && $this->input->cookie('hash'))
 		{
 			// Есть ли такой пользователь в базе и есть ли статус админа
-			$query = $this->Admin_model->checkUser($this->input->cookie('user'), $this->input->cookie('password'));
-			if($query && $query['group'] == $this->config->item('groups')['admin'])
+			$user = $this->Admin_model->getUserByLogin($this->input->cookie('user'));
+			if($user && $user['group'] == $this->config->item('user_group')['admin'])
 			{
 				// Проверка хеша
-				$hash = hash('sha512', $query['login'].$query['password'].$this->config->item('pass_key'));
+				$hash = hash('sha512', $user['login'].$user['password'].$this->config->item('pass_key'));
 				if($this->input->cookie('hash') == $hash)
 				{
 					// Записываем данные пользователя в сессию
-					$this->session->set_userdata('user_group', $query['group']);
-					$this->session->set_userdata('user_login', $query['login']);
-
+					$this->session->set_userdata('user', $user);
 					// Обновляем куки
-					$this->input->set_cookie('user', $query['login'], 604800);
-					$this->input->set_cookie('password', $query['password'], 604800);
+					$this->input->set_cookie('user', $user['login'], 604800);
 					$this->input->set_cookie('hash', $hash, 604800);
 
 					// Запись в базу времени входа в систему и ip
@@ -43,18 +40,18 @@ class Admin extends CI_Controller {
 						'last_ip' => $this->ip,
 						'last_date' => $this->time
 					);
-					$this->Admin_model->editUser($query['id'], $data_user);
+					$this->Admin_model->editUser($user['id'], $data_user);
 
 					// Запись о входе в лог
 					$data_log = array(
-						'user_id' => $query['id'],
+						'user_id' => $user['id'],
 						'message' => 'Вход в админ-панель',
 						'date' => $this->time
 					);
 					$this->Admin_model->addLog($data_log);
 
 					// Переход в админку
-					redirect('/admin/statistics', 'refresh');
+					header("Location: /admin/statistics");
 				}
 			}
 		}
@@ -83,18 +80,15 @@ class Admin extends CI_Controller {
 				$password = strrev(hash('sha512', $this->input->post('password', TRUE).$this->config->item('pass_key')));
 
 				// Проверяем есть ли пользователь в базе и какой у него доступ
-				$query = $this->Admin_model->checkUser($email, $password);
-				if ($query && $query['group'] == $this->config->item('groups')['admin'])
+				$user = $this->Admin_model->checkUser($email, $password);
+				if ($user && $user['group'] == $this->config->item('user_group')['admin'])
 				{
 					// Записываем данные пользователя в сессию
-					$this->session->set_userdata('user_group', $query['group']);
-					$this->session->set_userdata('user_login', $query['login']);
-
+					$this->session->set_userdata('user', $user);
 					// Если необходимо выставляем куки для запоминания пользователя
 					if ($this->input->post('remember')) {
-						$this->input->set_cookie('user', $query['login'], 604800);
-						$this->input->set_cookie('password', $query['password'], 604800);
-						$hash = hash('sha512', $query['login'].$query['password'].$this->config->item('pass_key'));
+						$this->input->set_cookie('user', $user['login'], 604800);
+						$hash = hash('sha512', $user['login'].$user['password'].$this->config->item('pass_key'));
 						$this->input->set_cookie('hash', $hash, 604800);
 					}
 
@@ -103,11 +97,11 @@ class Admin extends CI_Controller {
 						'last_ip' => $this->ip,
 						'last_date' => $this->time
 					);
-					$this->Admin_model->editUser($query['id'], $data_user);
+					$this->Admin_model->editUser($user['id'], $data_user);
 
 					// Запись о входе в лог
 					$data_log = array(
-						'user_id' => $query['id'],
+						'user_id' => $user['id'],
 						'message' => 'Вход в админ-панель',
 						'date' => $this->time
 					);
@@ -143,7 +137,7 @@ class Admin extends CI_Controller {
 		}
 		else
 		{
-			// Передача сообщения частых попытках входа
+			// Передача сообщения о частых попытках входа
 			$this->session->set_flashdata('message', 'Вы ошиблись 3 раза. Попробуйте позже');
 		}
 	} // End login_handler
@@ -151,19 +145,17 @@ class Admin extends CI_Controller {
 	public function logout()
 	{
 		// Запись о выходе в лог
-		$query = $this->Admin_model->getUserByLogin($this->session->userdata('user_login'));
-		$data = array(
-			'user_id' => $query['id'],
+		$user = $this->Admin_model->getUserByLogin($this->session->userdata('user')['login']);
+		$data_log = array(
+			'user_id' => $user['id'],
 			'message' => 'Выход из админ-панели',
 			'date' => $this->time
 		);
-		$this->Admin_model->addLog($data);
+		$this->Admin_model->addLog($data_log);
 
 		// Стираем данные из сессии и кук
-		$this->session->unset_userdata('user_group');
-		$this->session->unset_userdata('user_login');
+		$this->session->unset_userdata('user');
 		$this->input->set_cookie('user');
-		$this->input->set_cookie('password');
 		$this->input->set_cookie('hash');
 
 		// Переход на страницу авторизации
