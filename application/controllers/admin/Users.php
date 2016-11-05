@@ -61,27 +61,9 @@ class Users extends My_Controller {
         $config['per_page'] = 5;
         $config['uri_segment'] = 3;
         $config['num_links'] = 1;
-        $config['full_tag_open'] = '<ul class="pagination pagination-sm no-margin pull-right">';
-        $config['full_tag_close'] = '</ul>';
-        $config['first_link'] = '«';
-        $config['first_tag_open'] = '<li>';
-        $config['first_tag_close'] = '</li>';
-        $config['last_link'] = '»';
-        $config['last_tag_open'] = '<li>';
-        $config['last_tag_close'] = '</li>';
-        $config['next_link'] = '&gt;';
-        $config['next_tag_open'] = '<li>';
-        $config['next_tag_close'] = '</li>';
-        $config['prev_link'] = '&lt;';
-        $config['prev_tag_open'] = '<li>';
-        $config['prev_tag_close'] = '</li>';
-        $config['cur_tag_open'] = '<li class="active"><span>';
-        $config['cur_tag_close'] = '<span class="sr-only">(current)</span></span></li>';
-        $config['num_tag_open'] = '<li>';
-        $config['num_tag_close'] = '</li>';
         $this->pagination->initialize($config);
         // Получение списка всех пользователей
-        $data['users'] = $this->Users_model->get_users((int)$this->uri->segment($config['uri_segment']), $config['per_page'], $field, $query, $like);
+        $data['users'] = $this->Users_model->get_users($config['per_page'], (int)$this->uri->segment($config['uri_segment']), $field, $query, $like);
         // Генерация вида
         $data['title'] = 'Пользователи';
         $this->admin_render('users', 'users', $data);

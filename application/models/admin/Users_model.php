@@ -24,7 +24,7 @@ class Users_model extends CI_Model
     }
 
     // Получение всех пользователей
-    public function get_users($offset, $limit, $field, $query, $like)
+    public function get_users($limit, $offset, $field, $query, $like)
     {
         if ($field) {
             $query = $this->db->like($field, $query, $like)->

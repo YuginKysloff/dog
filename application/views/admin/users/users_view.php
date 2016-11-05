@@ -84,7 +84,7 @@
                                                      alt="<?=$val['login'];?>" width="30" height="30">
                                             </a>
                                         </td>
-                                        <td><a href="/admin/log/index/<?=$val['login'];?>"><?=$val['login'];?></a></td>
+                                        <td><a href="/admin/log/<?=$val['login'];?>"><?=$val['login'];?></a></td>
                                         <td><?=$val['name'];?></td>
                                         <td><?=$val['email'];?></td>
                                         <td>
@@ -110,7 +110,7 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer clearfix">
-                        <?=$this->pagination->create_links();?>
+                        <?=$this->pagination->create_links() ?? '';?>
                     </div>
                 </div>
                 <!-- /.box -->

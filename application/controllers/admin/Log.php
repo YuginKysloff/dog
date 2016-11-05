@@ -8,15 +8,24 @@ class Log extends MY_Controller {
         // Проверка доступа в закрытый раздел
         $this->check_access($this->config->item('user_group')['admin'], '/admin', '('.__FILE__.'/'.__LINE__.')');
         // Загрузка моделей и библиотек
-//        $this->load->model('/admin/Users_model');
-//        $this->load->library('form_validation');
-//        $this->load->library('pagination');
+        $this->load->model('/admin/Log_model');
+        $this->load->library('form_validation');
+        $this->load->library('pagination');
     }
 
     public function index()
     {
+        // Настройки пагинации
+        $config['base_url'] = '/admin/log/';
+        $config['total_rows'] = $this->Log_model->count_log();
+        $config['per_page'] = 20;
+        $config['uri_segment'] = 3;
+        $config['num_links'] = 1;
+        $this->pagination->initialize($config);
+        // Получение списка всех пользователей
+        $data['log'] = $this->Log_model->get_log($config['per_page'], (int)$this->uri->segment($config['uri_segment']));
+        // Генерация вида
         $data['title'] = 'Журнал событий';
-
         $this->admin_render('log', 'log', $data);
     }
 }
