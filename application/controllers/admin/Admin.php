@@ -11,10 +11,7 @@ class Admin extends CI_Controller {
 		$this->time = time();
 
 		$this->load->library('form_validation');
-		$this->load->model('admin/Users_model');
-		$this->load->model('admin/Log_model');
-		$this->load->model('admin/Warnings_model');
-		$this->load->model('admin/Attempts_model');
+		$this->load->model('admin/Admin_model');
 	}
 
 	public function login()
@@ -25,40 +22,39 @@ class Admin extends CI_Controller {
 		if($this->input->cookie('user') && $this->input->cookie('password') && $this->input->cookie('hash'))
 		{
 			// Есть ли такой пользователь в базе и есть ли статус админа
-			$query = $this->Users_model->checkUser($this->input->cookie('user'), $this->input->cookie('password'));
-			if($query && $query['user_status'] == 2)
+			$query = $this->Admin_model->checkUser($this->input->cookie('user'), $this->input->cookie('password'));
+			if($query && $query['group'] == $this->config->item('groups')['admin'])
 			{
 				// Проверка хеша
-				$hash = md5($query['user_login'].$query['user_password'].$query['user_id']);
+				$hash = hash('sha512', $query['login'].$query['password'].$this->config->item('pass_key'));
 				if($this->input->cookie('hash') == $hash)
 				{
 					// Записываем данные пользователя в сессию
-					$this->session->set_userdata('user_status', $query['user_status']);
-					$this->session->set_userdata('user_login', $query['user_login']);
+					$this->session->set_userdata('user_group', $query['group']);
+					$this->session->set_userdata('user_login', $query['login']);
 
 					// Обновляем куки
-					$this->input->set_cookie('user', $query['user_login'], 604800);
-					$this->input->set_cookie('password', $query['user_password'], 604800);
-					$hash = md5($query['user_login'] . $query['user_password'] . $query['user_id']);
+					$this->input->set_cookie('user', $query['login'], 604800);
+					$this->input->set_cookie('password', $query['password'], 604800);
 					$this->input->set_cookie('hash', $hash, 604800);
 
 					// Запись в базу времени входа в систему и ip
 					$data_user = array(
-						'user_last_ip' => $this->ip,
-						'user_last_act' => $this->time
+						'last_ip' => $this->ip,
+						'last_date' => $this->time
 					);
-					$this->Users_model->editUser($query['user_id'], $data_user);
+					$this->Admin_model->editUser($query['id'], $data_user);
 
 					// Запись о входе в лог
 					$data_log = array(
-						'user_id' => $query['user_id'],
-						'log_message' => 'Вход в админ-панель',
-						'log_date' => $this->time
+						'user_id' => $query['id'],
+						'message' => 'Вход в админ-панель',
+						'date' => $this->time
 					);
-					$this->Log_model->add($data_log);
+					$this->Admin_model->addLog($data_log);
 
 					// Переход в админку
-					redirect('/admin/index', 'refresh');
+					redirect('/admin/statistics', 'refresh');
 				}
 			}
 		}
@@ -68,76 +64,77 @@ class Admin extends CI_Controller {
         {
             $this->login_handler();
         }
-        else
-        {
-			$this->load->view('admin/login_view', $data);
-        }
+
+		$this->load->view('admin/login_view', $data);
 	} // End login
 
 	private function login_handler()
 	{
 		// Проверка количества неудачных попыток
-		if($this->Attempts_model->check($this->ip) < 3)
+		if($this->Admin_model->checkAttempt($this->ip) < 3)
 		{
+			$this->form_validation->set_rules('email', 'e-mail', 'trim|required|valid_email');
+			$this->form_validation->set_rules('password', 'пароль', 'trim|required|alpha_numeric|min_length[6]|max_length[20]');
+
 			if ($this->form_validation->run() == TRUE)
 			{
 				// Получаем данные из формы
-				$login = $this->input->post('login', TRUE);
-				$password = md5($this->input->post('password'));
+				$email = $this->input->post('email', TRUE);
+				$password = strrev(hash('sha512', $this->input->post('password', TRUE).$this->config->item('pass_key')));
 
 				// Проверяем есть ли пользователь в базе и какой у него доступ
-				$query = $this->Users_model->checkUser($login, $password);
-				if ($query && $query['user_status'] == 2)
+				$query = $this->Admin_model->checkUser($email, $password);
+				if ($query && $query['group'] == $this->config->item('groups')['admin'])
 				{
 					// Записываем данные пользователя в сессию
-					$this->session->set_userdata('user_status', $query['user_status']);
-					$this->session->set_userdata('user_login', $query['user_login']);
+					$this->session->set_userdata('user_group', $query['group']);
+					$this->session->set_userdata('user_login', $query['login']);
 
 					// Если необходимо выставляем куки для запоминания пользователя
 					if ($this->input->post('remember')) {
-						$this->input->set_cookie('user', $query['user_login'], 604800);
-						$this->input->set_cookie('password', $query['user_password'], 604800);
-						$hash = md5($query['user_login'] . $query['user_password'] . $query['user_id']);
+						$this->input->set_cookie('user', $query['login'], 604800);
+						$this->input->set_cookie('password', $query['password'], 604800);
+						$hash = hash('sha512', $query['login'].$query['password'].$this->config->item('pass_key'));
 						$this->input->set_cookie('hash', $hash, 604800);
 					}
 
 					// Запись в базу времени входа в систему и ip
 					$data_user = array(
-						'user_last_ip' => $this->ip,
-						'user_last_act' => $this->time
+						'last_ip' => $this->ip,
+						'last_date' => $this->time
 					);
-					$this->Users_model->editUser($query['user_id'], $data_user);
+					$this->Admin_model->editUser($query['id'], $data_user);
 
 					// Запись о входе в лог
 					$data_log = array(
-						'user_id' => $query['user_id'],
-						'log_message' => 'Вход в админ-панель',
-						'log_date' => $this->time
+						'user_id' => $query['id'],
+						'message' => 'Вход в админ-панель',
+						'date' => $this->time
 					);
-					$this->Log_model->add($data_log);
+					$this->Admin_model->addLog($data_log);
 
 					// Удаляем неудачные попытки из базы
-					$this->Attempts_model->delete($this->ip);
+					$this->Admin_model->delAttempt($this->ip);
 
 					// Переход в админку
-					redirect('/admin/index', 'refresh');
+					header("Location: /admin/statistics");
 				}
 				else
 				{
 					// Запись о неудачной попытке входа
 					$data_warn = array(
-						'warn_ip' => $this->ip,
-						'warn_message' => 'Неудачная попытка доступа в админ-панель',
-						'warn_date' => $this->time
+						'ip' => $this->ip,
+						'message' => 'Неудачная попытка доступа в админ-панель',
+						'date' => $this->time
 					);
-					$this->Warnings_model->add($data_warn);
+					$this->Admin_model->addWarning($data_warn);
 
 					// Запись в таблицу попыток
 					$data_attempt = array(
-						'attempt_value' => $this->ip,
-						'attempt_date' => $this->time
+						'value' => $this->ip,
+						'date' => $this->time
 					);
-					$this->Attempts_model->add($data_attempt);
+					$this->Admin_model->addAttempt($data_attempt);
 
 					// Передача сообщения об ошибке
 					$this->session->set_flashdata('message', 'Введены неверные данные');
@@ -149,30 +146,28 @@ class Admin extends CI_Controller {
 			// Передача сообщения частых попытках входа
 			$this->session->set_flashdata('message', 'Вы ошиблись 3 раза. Попробуйте позже');
 		}
-
-		// Возвращение на страницу логин
-		$this->load->view('admin/login_view');
 	} // End login_handler
 
 	public function logout()
 	{
 		// Запись о выходе в лог
-		$query = $this->Users_model->getUserByLogin($this->session->userdata('user_login'));
+		$query = $this->Admin_model->getUserByLogin($this->session->userdata('user_login'));
 		$data = array(
-			'user_id' => $query['user_id'],
-			'log_message' => 'Выход из админ-панели',
-			'log_date' => $this->time
+			'user_id' => $query['id'],
+			'message' => 'Выход из админ-панели',
+			'date' => $this->time
 		);
-		$this->Log_model->add($data);
+		$this->Admin_model->addLog($data);
 
 		// Стираем данные из сессии и кук
-		$this->session->unset_userdata('user_status');
+		$this->session->unset_userdata('user_group');
 		$this->session->unset_userdata('user_login');
 		$this->input->set_cookie('user');
 		$this->input->set_cookie('password');
 		$this->input->set_cookie('hash');
 
-        redirect('/admin', 'refresh'); 		
+		// Переход на страницу авторизации
+		header("Location: /admin");
 	}
 
 	// Возвращает  ip

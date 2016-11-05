@@ -34,20 +34,25 @@
     <!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">Авторизация пользователя</p>
-        <form method="post">
+        <form name="login" method="post" accept-charset="utf-8">
             <div class="form-group has-feedback">
-                <input type="email" name="email" class="form-control" placeholder="Введите E-mail">
+                <input type="email" name="email" class="form-control" placeholder="Введите E-mail" value="<?= set_value('email');?>" maxlength="50">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <?=form_error('email', '<div class="text-red">', '</div>');?>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" name="password" class="form-control" placeholder="Введите пароль">
+                <input type="password" name="password" class="form-control" placeholder="Введите пароль" value="<?= set_value('password');?>" maxlength="20">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                <?=form_error('password', '<div class="text-red">', '</div>');?>
+            </div>
+            <div class="form-group">
+                <span class="text-red"><?=$this->session->flashdata('message');?></span>
             </div>
             <div class="row">
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
                         <label>
-                            <input type="checkbox" name="remember"> Запомнить меня
+                            <input type="checkbox" name="remember" value="1" <?=set_checkbox('remember', '1');?>> Запомнить меня
                         </label>
                     </div>
                 </div>

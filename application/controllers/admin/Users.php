@@ -5,6 +5,9 @@ class Users extends My_Controller {
     public function __construct()
     {
         parent::__construct();
+        // Проверка доступа в закрытый раздел
+        if($this->session->userdata('user_group') < $this->config->item('groups')['admin']) header("Location: /admin");;
+
         $this->load->model('/admin/Users_model');
         $this->load->library('form_validation');
         $this->load->library('pagination');
@@ -159,10 +162,10 @@ class Users extends My_Controller {
                         }
                         // Подготовка данных и запись в базу
                         $data['edit'] = array(
-                            'login' => $this->input->post('login'),
-                            'name' => $this->input-> post('name'),
-                            'email' => $this->input->post('email'),
-                            'password' => strrev(hash('sha512', $this->input->post('password').$this->config->item('pass_key'))),
+                            'login' => $this->input->post('login', TRUE),
+                            'name' => $this->input-> post('name', TRUE),
+                            'email' => $this->input->post('email', TRUE),
+                            'password' => strrev(hash('sha512', $this->input->post('password', TRUE).$this->config->item('pass_key'))),
                             'group' => $this->input->post('group'),
                         );
                         // Запись данных из формы в базу
