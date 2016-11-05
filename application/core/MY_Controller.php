@@ -43,9 +43,9 @@ class MY_Controller extends CI_Controller {
     {
         if($this->session->userdata('user')['group'] < $level)
         {
-            $this->load->model('/admin/Warnings_model');
+            $this->load->model('/admin/Warning_model');
             $data_warn = ['ip' => $this->get_ip(), 'message' => 'Попытка несанкционированного доступа'.$source, 'date' => time()];
-            $this->Warnings_model->addWarning($data_warn);
+            $this->Warning_model->addWarning($data_warn);
             header("Location: ".$path);
         }
         return true;

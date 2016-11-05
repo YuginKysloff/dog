@@ -9,14 +9,14 @@ class Log_model extends CI_Model
     }
 
     // Получение количества всех записей
-    public function count_log()
+    public function countLog()
     {
         $query = $this->db->count_all($this->db->dbprefix('log'));
         return $query;
     }
 
     // Получение всех записей
-    public function get_log($limit, $offset)
+    public function getLog($limit, $offset)
     {
         $query = $this->db->select($this->db->dbprefix('log').'.*, '.$this->db->dbprefix('users').'.login')->
                             from($this->db->dbprefix('log'))->

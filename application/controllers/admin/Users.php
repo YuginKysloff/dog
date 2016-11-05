@@ -58,9 +58,9 @@ class Users extends My_Controller {
         // Настройки пагинации
         $config['base_url'] = '/admin/users/';
         $config['total_rows'] = $this->Users_model->count_users($field, $query, $like);
-        $config['per_page'] = 5;
+        $config['per_page'] = 20;
         $config['uri_segment'] = 3;
-        $config['num_links'] = 1;
+        $config['num_links'] = 2;
         $this->pagination->initialize($config);
         // Получение списка всех пользователей
         $data['users'] = $this->Users_model->get_users($config['per_page'], (int)$this->uri->segment($config['uri_segment']), $field, $query, $like);

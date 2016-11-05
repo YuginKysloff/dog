@@ -91,9 +91,9 @@ class Admin extends MY_Controller {
 				else
 				{
 					// Запись о неудачной попытке входа
-					$this->load->model('admin/Warnings_model');
+					$this->load->model('admin/Warning_model');
 					$data_warn = ['login' => $login, 'ip' => $this->ip, 'message' => 'Неудачная попытка доступа в админ-панель', 'date' => $this->time];
-					$this->Warnings_model->addWarning($data_warn);
+					$this->Warning_model->addWarning($data_warn);
 					// Запись в таблицу попыток
 					$data_attempt = ['value' => $this->ip, 'date' => $this->time];
 					$this->Admin_model->addAttempt($data_attempt);

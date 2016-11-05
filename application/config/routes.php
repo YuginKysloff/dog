@@ -55,6 +55,7 @@ $route['admin/logout'] = 'admin/admin/logout';
 $route['admin/users/(:num)'] = 'admin/users/index/$1';
 $route['admin/log/(:num)'] = 'admin/log/index/$1';
 $route['admin/log/(:any)'] = 'admin/log/index/$1';
+$route['admin/warning/(:num)'] = 'admin/warning/index/$1';
 
 
 $route['default_controller'] = 'welcome';
