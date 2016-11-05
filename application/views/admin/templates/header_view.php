@@ -53,9 +53,9 @@
                         <!-- Menu Toggle Button -->
                         <a href="/admin/users/edit/<?=md5($this->session->userdata('user')['id']);?>">
                             <!-- The user image in the navbar-->
-                            <img src="/uploads/users/avatars/user<?=$this->session->userdata('user')['id'];?>.jpg" class="user-image" alt="User Image">
+                            <img src="/uploads/users/avatars/user<?=$this->session->userdata('user')['id'];?>.jpg" class="user-image" alt="<?=$this->session->userdata('user')['login'];?>">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs"><?=$this->session->userdata('user_login');?></span>
+                            <span class="hidden-xs"><?=$this->session->userdata('user')['login'];?></span>
                         </a>
                     </li>
                 </ul>

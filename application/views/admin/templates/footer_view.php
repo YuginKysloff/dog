@@ -1,4 +1,5 @@
 <? defined('BASEPATH') OR exit('No direct script access allowed');?>
+
 <!-- Main Footer -->
 <footer class="main-footer">
     <!-- To the right -->

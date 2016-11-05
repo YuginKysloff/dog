@@ -1,5 +1,4 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<? defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends MY_Controller {
 
@@ -21,7 +20,7 @@ class Admin extends MY_Controller {
 		{
 			// Есть ли такой пользователь в базе и есть ли статус админа
 			$user = $this->Admin_model->getUserByLogin($this->input->cookie('user'));
-			if($user && $user['group'] == $this->config->item('user_group')['admin'])
+			if($user && $user['group'] >= $this->config->item('user_group')['admin'])
 			{
 				// Проверка хеша
 				$hash = hash('sha512', $user['login'].$user['password'].$this->config->item('pass_key'));
@@ -36,8 +35,8 @@ class Admin extends MY_Controller {
 					$data_user = ['last_ip' => $this->ip, 'last_date' => $this->time];
 					$this->Admin_model->editUser($user['id'], $data_user);
 					// Запись о входе в лог
-					$data_log = ['user_id' => $user['id'], 'message' => 'Вход в админ-панель', 'date' => $this->time];
-					$this->Admin_model->addLog($data_log);
+//					$data_log = ['user_id' => $user['id'], 'message' => 'Вход в админ-панель', 'date' => $this->time];
+//					$this->Admin_model->addLog($data_log);
 					// Переход в админку
 					header("Location: /admin/statistics");
 				}
@@ -68,7 +67,7 @@ class Admin extends MY_Controller {
 				$password = strrev(hash('sha512', $this->input->post('password', TRUE).$this->config->item('pass_key')));
 				// Проверка есть ли пользователь в базе и какой у него доступ
 				$user = $this->Admin_model->checkUser($login, $password);
-				if ($user && $user['group'] == $this->config->item('user_group')['admin'])
+				if ($user && $user['group'] >= $this->config->item('user_group')['admin'])
 				{
 					// Запись данных пользователя в сессию
 					$this->session->set_userdata('user', $user);
@@ -93,7 +92,7 @@ class Admin extends MY_Controller {
 				{
 					// Запись о неудачной попытке входа
 					$this->load->model('admin/Warnings_model');
-					$data_warn = ['ip' => $this->ip, 'message' => 'Неудачная попытка доступа в админ-панель', 'date' => $this->time];
+					$data_warn = ['login' => $login, 'ip' => $this->ip, 'message' => 'Неудачная попытка доступа в админ-панель', 'date' => $this->time];
 					$this->Warnings_model->addWarning($data_warn);
 					// Запись в таблицу попыток
 					$data_attempt = ['value' => $this->ip, 'date' => $this->time];
