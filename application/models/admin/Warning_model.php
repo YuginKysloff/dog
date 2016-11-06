@@ -24,7 +24,7 @@ class Warning_model extends CI_Model
     // Получение всех записей
     public function getWarn($limit, $offset)
     {
-        $query = $this->db->select($this->db->dbprefix('warning').'.*, '.$this->db->dbprefix('users').'.login AS name')->
+        $query = $this->db->select($this->db->dbprefix('warning').'.*, '.$this->db->dbprefix('users').'.login')->
                             from($this->db->dbprefix('warning'))->
                             join($this->db->dbprefix('users'), $this->db->dbprefix('warning').'.user_id = '.$this->db->dbprefix('users').'.id', 'left')->
                             order_by('date', 'desc')->

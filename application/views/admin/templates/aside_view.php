@@ -15,17 +15,17 @@
             <li <? if($this->uri->segment(2) == 'log'):?>class="active"<? endif;?>><a href="/admin/log"><i class="fa fa-book"></i> <span>Журнал событий</span></a></li>
             <li <? if($this->uri->segment(2) == 'warning'):?>class="active"<? endif;?>><a href="/admin/warning"><i class="fa fa-warning"></i> <span>Предупреждения</span></a></li>
             <li><a href="/admin/logout"><i class="fa fa-sign-out"></i> <span>Выход</span></a></li>
-            <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="#">Link in level 2</a></li>
-                    <li><a href="#">Link in level 2</a></li>
-                </ul>
-            </li>
+<!--            <li class="treeview">-->
+<!--                <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>-->
+<!--            <span class="pull-right-container">-->
+<!--              <i class="fa fa-angle-left pull-right"></i>-->
+<!--            </span>-->
+<!--                </a>-->
+<!--                <ul class="treeview-menu">-->
+<!--                    <li><a href="#">Link in level 2</a></li>-->
+<!--                    <li><a href="#">Link in level 2</a></li>-->
+<!--                </ul>-->
+<!--            </li>-->
         </ul>
         <!-- /.sidebar-menu -->
     </section>

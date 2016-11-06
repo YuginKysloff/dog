@@ -29,7 +29,7 @@
 <body class="hold-transition login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="/"><b>Dog</b>Club</a>
+        <a href="/" title="Переход на вебсайт"><b>Dog</b>Club</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">

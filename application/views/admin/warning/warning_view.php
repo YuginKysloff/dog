@@ -12,10 +12,8 @@
             <li><i class="fa fa-warning"></i> Журнал предупреждений</li>
         </ol>
     </section>
-
     <!-- Main content -->
     <section class="content">
-
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
@@ -41,7 +39,6 @@
                             <tr>
                                 <th>№</th>
                                 <th>Пользователь</th>
-                                <th>Рег. логин</th>
                                 <th>IP</th>
                                 <th>Сообщение</th>
                                 <th>Дата</th>
@@ -52,8 +49,7 @@
                                 <? foreach ($warn as $val): ?>
                                     <tr>
                                         <td>#<?=$val['id'];?></td>
-                                        <td class="btn"><a><?=$val['name'];?></a></td>
-                                        <td><?=$val['login'];?></td>
+                                        <td class="btn"><a><?=$val['login'];?></a></td>
                                         <td><?=$val['ip'];?></td>
                                         <td><?=$val['message'];?></td>
                                         <td><?=date('d-m-Y H:i', $val['date']);?></td>
@@ -61,7 +57,7 @@
                                 <? endforeach; ?>
                             <? else: ?>
                                 <tr>
-                                    <td colspan="6" class="text-center">Нет данных</td>
+                                    <td colspan="5" class="text-center">Нет данных</td>
                                 </tr>
                             <? endif; ?>
                             </tbody>
@@ -75,7 +71,6 @@
                 <!-- /.box -->
             </div>
         </div>
-
     </section>
     <!-- /.content -->
 </div>
