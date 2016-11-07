@@ -8,7 +8,7 @@ class Log extends MY_Controller {
         // Проверка доступа в закрытый раздел
         $this->check_access($this->config->item('user_group')['admin'], '/admin', '('.__FILE__.'/'.__LINE__.')');
         // Загрузка моделей и библиотек
-        $this->load->model('/admin/Log_model');
+        $this->load->model('admin/Log_model');
         $this->load->library('form_validation');
         $this->load->library('pagination');
     }

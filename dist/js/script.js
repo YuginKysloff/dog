@@ -1,5 +1,4 @@
 // Функция Ajax
-
 var st_process = new Object();
 function process(url, ident, before_id, form_id) {
     if(st_process[ident] == false) return;
@@ -24,7 +23,6 @@ function process(url, ident, before_id, form_id) {
             });
         },
         error: function(response) {
-
             location.href = '/errors/data';
         },
         complete: function () {
@@ -33,10 +31,10 @@ function process(url, ident, before_id, form_id) {
     });
 }
 
-    // Запуск фансибокс
-    $(document).ready(function() {
-        $(".fancybox").fancybox();
-    });
+// Запуск фансибокс
+$(document).ready(function() {
+    $(".fancybox").fancybox();
+});
 
 
 //$('#users__list').on('click', '.users__group', function(){

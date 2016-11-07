@@ -15,32 +15,10 @@ class Admin extends MY_Controller {
 
 	public function login()
 	{
-		// Проверка есть ли куки для автовхода
-		if($this->input->cookie('user') && $this->input->cookie('hash'))
+		// Проверка залогинен ли пользователь и его группу
+		if($this->session->userdata('user') && ($this->session->userdata('user')['group'] == $this->config->item('user_group')['admin']))
 		{
-			// Есть ли такой пользователь в базе и есть ли статус админа
-			$user = $this->Admin_model->getUserByLogin($this->input->cookie('user'));
-			if($user && $user['group'] >= $this->config->item('user_group')['admin'])
-			{
-				// Проверка хеша
-				$hash = hash('sha512', $user['login'].$user['password'].$this->config->item('pass_key'));
-				if($this->input->cookie('hash') == $hash)
-				{
-					// Записываем данные пользователя в сессию
-					$this->session->set_userdata('user', $user);
-					// Обновляем куки
-					$this->input->set_cookie('user', $user['login'], 604800);
-					$this->input->set_cookie('hash', $hash, 604800);
-					// Запись в базу времени входа в систему и ip
-					$data_user = ['last_ip' => $this->ip, 'last_date' => $this->time];
-					$this->Admin_model->editUser($user['id'], $data_user);
-					// Запись о входе в лог
-//					$data_log = ['user_id' => $user['id'], 'message' => 'Вход в админ-панель', 'date' => $this->time];
-//					$this->Admin_model->addLog($data_log);
-					// Переход в админку
-					header("Location: /admin/statistics");
-				}
-			}
+			header("Location: /admin/statistics");
 		}
 		// Проверка есть ли пост данные и их обработка
         if($this->input->post('submit'))

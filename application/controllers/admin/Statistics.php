@@ -8,15 +8,15 @@ class Statistics extends MY_Controller {
         // Проверка доступа в закрытый раздел
         $this->check_access($this->config->item('user_group')['admin'], '/admin', '('.__FILE__.'/'.__LINE__.')');
         // Загрузка моделей и библиотек
-        $this->load->model('/admin/Statistics_model');
+        $this->load->model('admin/Statistics_model');
     }
 
     public function index()
     {
-        $data['title'] = 'Статистика';
-
+        // Подготовка данных для вывода
         $data['stat'] = $this->Statistics_model->get_statistics();
-
+        // Генерация вида
+        $data['title'] = 'Статистика';
         $this->admin_render('statistics', 'statistics', $data);
     }
 }
