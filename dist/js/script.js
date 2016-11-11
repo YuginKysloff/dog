@@ -8,13 +8,11 @@ function process(url, ident, before_id, form_id) {
         type:     "POST",
         dataType: "json",
         data: jQuery("#"+form_id).serialize(),
+
         beforeSend: function () {
             st_process[ident] = false;
             if(before_id) {
-                if(!$("#"+before_id).is(":visible")) {
-                    $("#"+before_id).show();
-                }
-                $("#"+before_id).html('<img class="load__img" src="/views/default/img/load.gif">');
+                $(before_id).addClass('js-process');
             }
         },
         success: function(response) {
@@ -23,19 +21,34 @@ function process(url, ident, before_id, form_id) {
             });
         },
         error: function(response) {
-            location.href = '/errors/data';
+            messager('error', 'Unknown error');
         },
         complete: function () {
             st_process[ident] = true;
+            if(before_id) {
+                $(before_id).removeClass('js-process');
+            }
         }
     });
 }
 
-// Запуск фансибокс
-$(document).ready(function() {
+// launch fancybox
+if($('.fancybox').length != 0) {
     $(".fancybox").fancybox();
+}
+
+// log_view
+$('#log__list').on('click', '.log__login', function() {
+    $('input[name=query]').val($(this).text());
 });
 
+// warning_view
+$('#warn__list').on('click', '.warn__login', function() {
+    $('input[name=query]').val($(this).text());
+});
+$('#warn__list').on('click', '.warn__ip', function() {
+    $('input[name=query]').val($(this).text());
+});
 
 //$('#users__list').on('click', '.users__group', function(){
 //    process('/admin/users/change_status/'+$(this).attr('data-group')+'/'+$(this).attr('data-id'), 'block');

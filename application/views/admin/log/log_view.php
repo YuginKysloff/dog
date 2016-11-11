@@ -12,10 +12,8 @@
             <li><i class="fa fa-book"></i> Журнал событий</li>
         </ol>
     </section>
-
     <!-- Main content -->
     <section class="content">
-
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
@@ -40,17 +38,17 @@
                             <thead>
                             <tr>
                                 <th>№</th>
-                                <th>Логин</th>
+                                <th id="log">Логин</th>
                                 <th>Сообщение</th>
                                 <th>Дата</th>
                             </tr>
                             </thead>
-                            <tbody id="users__list">
+                            <tbody id="log__list">
                             <? if (!empty($log)): ?>
                                 <? foreach ($log as $val): ?>
                                     <tr>
                                         <td>#<?=$val['id'];?></td>
-                                        <td class="btn"><a><?=$val['login'];?></a></td>
+                                        <td class="log__login pointer"><a><?=$val['login'];?></a></td>
                                         <td><?=$val['message'];?></td>
                                         <td><?=date('d-m-Y H:i', $val['date']);?></td>
                                     </tr>
@@ -71,7 +69,6 @@
                 <!-- /.box -->
             </div>
         </div>
-
     </section>
     <!-- /.content -->
 </div>

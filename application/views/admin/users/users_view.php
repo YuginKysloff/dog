@@ -57,37 +57,38 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>№</th>
-                                    <th>Фото</th>
-                                    <th>Логин</th>
-                                    <th>Имя</th>
-                                    <th>E-mail</th>
-                                    <th>Группа</th>
-                                    <th>Дата регистрации</th>
-                                    <th>Операции</th>
+                                    <th class="text-center">№</th>
+                                    <th class="text-center">Фото</th>
+                                    <th class="text-center">Логин</th>
+                                    <th class="text-center">Имя</th>
+                                    <th class="text-center">E-mail</th>
+                                    <th class="text-center">Группа</th>
+                                    <th class="text-center">Дата регистрации</th>
+                                    <th class="text-center">Операции</th>
                                 </tr>
                             </thead>
                             <tbody  id="users__list">
                             <? if(!empty($users)):?>
                                 <? foreach($users as $val):?>
                                     <tr>
-                                        <td <? switch($val['group']):
-                                                case 0:?>class="bg-red"<? break;
-                                                case 2:?>class="bg-blue"
-                                            <? endswitch;?>>
+                                        <td class="text-center
+                                            <? switch($val['group']):
+                                                case 0:?>bg-red<? break;
+                                                case 2:?>bg-blue
+                                            <? endswitch;?>">
                                             #<?=$val['id'];?>
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             <a class="fancybox" rel="group<?=$val['id'];?>" href="/uploads/users/avatars/user<?=$val['id'];?>.jpg" title="<?=$val['login'];?>">
                                                 <img src="/uploads/users/avatars/user<?=$val['id'];?>_thumb.jpg"
                                                      class="img-roundedimg-thumbnail"
                                                      alt="<?=$val['login'];?>" width="30" height="30">
                                             </a>
                                         </td>
-                                        <td><a href="/admin/log/<?=$val['login'];?>"><?=$val['login'];?></a></td>
-                                        <td><?=$val['name'];?></td>
-                                        <td><?=$val['email'];?></td>
-                                        <td>
+                                        <td class="text-center"><a href="/admin/log/<?=$val['login'];?>"><?=$val['login'];?></a></td>
+                                        <td class="text-center"><?=$val['name'];?></td>
+                                        <td class="text-center"><?=$val['email'];?></td>
+                                        <td class="text-center">
                                             <? switch($val['group']):
                                                 case 1:?>Пользователь
                                                     <? break;
@@ -96,8 +97,8 @@
                                                 default:?>Заблокирован
                                             <? endswitch;?>
                                         </td>
-                                        <td><?=date('d-m-Y H:i', $val['reg_date']);?></td>
-                                        <td class="btn"><a href="/admin/users/edit/<?=md5($val['id']);?>"><i class="fa fa-edit"></i> - редактировать</a></td>
+                                        <td class="text-center"><?=date('d-m-Y H:i', $val['reg_date']);?></td>
+                                        <td class="pointer text-center"><a href="/admin/users/edit/<?=md5($val['id']);?>"><i class="fa fa-edit"></i> - редактировать</a></td>
                                     </tr>
                                 <? endforeach;?>
                             <? else:?>

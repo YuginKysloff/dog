@@ -14,6 +14,14 @@ class Warning_model extends CI_Model
         return $query;
     }
 
+    // Получение количества записей за сутки
+    public function countLastWarn()
+    {
+        $query = $this->db->where('date >', strtotime('today'))->
+                            count_all_results($this->db->dbprefix('warning'));
+        return $query;
+    }
+
     // Получение количества всех записей
     public function countWarn()
     {

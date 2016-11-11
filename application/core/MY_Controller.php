@@ -21,6 +21,10 @@ class MY_Controller extends CI_Controller {
     //admin render -------------------------------------------------------------------------------------------------------------------
     public function admin_render($page, $slug, $data)
     {
+        // Получение количества нвых записей за сутки
+        $this->load->model('/admin/Aside_model');
+        $data['last']['users'] = $this->Aside_model->countLastUsers();
+        $data['last']['warn'] = $this->Aside_model->countLastWarn();
         //render view
         $this->load->view('admin/templates/header_view',$data);
         $this->load->view('admin/templates/aside_view');
