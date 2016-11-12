@@ -53,7 +53,7 @@
                             <? if (!empty($warn)): ?>
                                 <? foreach ($warn as $val): ?>
                                     <tr>
-                                        <td>#<?=$val['id'];?></td>
+                                        <td <? if($val['date'] > strtotime('today')):?>class="bg-red"<? endif;?>>#<?=$val['id'];?></td>
                                         <td class="warn__login pointer"><a><?=$val['login'];?></a></td>
                                         <td class="warn__ip pointer"><a><?=$val['ip'];?></a></td>
                                         <td><?=$val['message'];?></td>

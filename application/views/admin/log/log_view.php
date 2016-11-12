@@ -17,10 +17,23 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <form method="post" accept-charset="utf-8" class="form-inline">
+                    <form method="post" accept-charset="utf-8" class="form-inline" id="log__search_form">
                         <div class="box-header">
+                            <div class="input-group input-group-sm col-sm-1">
+                                <select name="per_page" class="form-control">
+                                    <option value="10" <? if($this->uri->segment(3) == 10):?>selected<? endif;?>>
+                                        10 строк
+                                    </option>
+                                    <option value="25" <? if($this->uri->segment(3) == 25):?>selected<? endif;?>>
+                                        25 строк
+                                    </option>
+                                    <option value="50" <? if($this->uri->segment(3) == 50):?>selected<? endif;?>>
+                                        50 строк
+                                    </option>
+                                </select>
+                            </div>
                             <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="query" class="form-control"
+                                <input type="text" name="query" value="" class="form-control"
                                        placeholder="Поиск">
                                 <div class="input-group-btn">
                                     <button type="submit" name="search" value="search" class="btn btn-default"><i
@@ -63,7 +76,7 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer clearfix">
-                        <?=$this->pagination->create_links() ?? '';?>
+                        <?=$this->pagination->create_links();?>
                     </div>
                 </div>
                 <!-- /.box -->

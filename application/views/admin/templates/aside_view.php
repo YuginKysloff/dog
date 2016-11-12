@@ -14,11 +14,6 @@
                 <a href="/admin/statistics">
                     <i class="fa fa-line-chart"></i>
                     <span>Статистика</span>
-                    <span class="pull-right-container">
-                        <? if($last['users']):?>
-                            <small class="label pull-right bg-green"><?=$last['users'];?></small>
-                        <? endif;?>
-                    </span>
                 </a>
             </li>
             <li <? if($this->uri->segment(2) == 'users'):?>class="active"<? endif;?>>

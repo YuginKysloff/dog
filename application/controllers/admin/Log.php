@@ -13,13 +13,14 @@ class Log extends MY_Controller {
         $this->load->library('pagination');
     }
 
-    public function index()
+    public function index($query = 'all', $perPage = 10)
     {
+
         // Настройки пагинации
-        $config['base_url'] = '/admin/log/';
+        $config['base_url'] = '/admin/log/'.$query.'/'.$perPage.'/';
         $config['total_rows'] = $this->Log_model->countLog();
-        $config['per_page'] = 20;
-        $config['uri_segment'] = 3;
+        $config['per_page'] = $perPage;
+        $config['uri_segment'] = 5;
         $config['num_links'] = 2;
         $this->pagination->initialize($config);
         // Получение списка всех пользователей
