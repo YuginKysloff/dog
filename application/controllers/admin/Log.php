@@ -13,11 +13,16 @@ class Log extends MY_Controller {
         $this->load->library('pagination');
     }
 
-    public function index($query = 'all', $perPage = 10)
+    public function index($perPage = 10, $query = 'all')
     {
 
+        $data['query'] = $query;
+        if($query != 'all') {
+//            $user_id = $this->Log_model->get_by_login($query);
+        }
+
         // Настройки пагинации
-        $config['base_url'] = '/admin/log/'.$query.'/'.$perPage.'/';
+        $config['base_url'] = '/admin/log/'.$perPage.'/'.$query;
         $config['total_rows'] = $this->Log_model->countLog();
         $config['per_page'] = $perPage;
         $config['uri_segment'] = 5;

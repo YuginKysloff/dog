@@ -41,8 +41,8 @@ if($('.fancybox').length != 0) {
 $('#log__list').on('click', '.log__login', function() {
     $('input[name=query]').val($(this).text());
 });
-$('#log__search_form select[name=per_page]').on('change', function() {
-    location.href='/admin/log/'+$('#log__search_form select[name=per_page]').val()+'/'+$('#log__search_form input[name=query]').val();
+$('select[name=per_page]').on('change', function() {
+    location.href='/admin/log/'+$('select[name=per_page]').val()+'/'+$('input[name=query]').val();
 });
 
 // warning_view

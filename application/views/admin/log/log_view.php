@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box">
-                    <form method="post" accept-charset="utf-8" class="form-inline" id="log__search_form">
+                    <form method="post" accept-charset="utf-8" class="form-inline">
                         <div class="box-header">
                             <div class="input-group input-group-sm col-sm-1">
                                 <select name="per_page" class="form-control">
